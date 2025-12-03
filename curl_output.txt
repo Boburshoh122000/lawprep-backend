@@ -1,0 +1,27 @@
+* Host localhost:3001 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:3001...
+* Connected to localhost (::1) port 3001
+> GET /courses HTTP/1.1
+> Host: localhost:3001
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 500 Internal Server Error
+< X-Powered-By: Express
+< Access-Control-Allow-Origin: *
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 52
+< ETag: W/"34-rlKccw1E+/fV8niQk4oFitDfPro"
+< Date: Wed, 03 Dec 2025 05:02:09 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< 
+{ [52 bytes data]
+100    52  100    52    0     0    527      0 --:--:-- --:--:-- --:--:--   530
+* Connection #0 to host localhost left intact
+{"statusCode":500,"message":"Internal server error"}

@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  phone         String?  @unique
+  name          String
+  role          Role     @default(STUDENT)
+  isPremium     Boolean  @default(false)
+  coins         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  testResults   TestResult[]
+  achievements  Achievement[]
+
+  @@map("users")
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  name        String
+  grade       String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  lessons     Lesson[]
+
+  @@map("courses")
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  courseId    String
+  order       Int
+  videoUrl    String?
+  audioUrl    String?
+  content     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  flashcards  Flashcard[]
+
+  @@map("lessons")
+}
+
+model Flashcard {
+  id          String   @id @default(uuid())
+  lessonId    String
+  question    String
+  answer      String
+  createdAt   DateTime @default(now())
+  
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@map("flashcards")
+}
+
+model Test {
+  id          String   @id @default(uuid())
+  title       String
+  isPremium   Boolean  @default(false)
+  timeLimit   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  questions   Question[]
+  results     TestResult[]
+
+  @@map("tests")
+}
+
+model Question {
+  id          String   @id @default(uuid())
+  testId      String
+  question    String
+  options     String[]
+  correctAnswer String
+  createdAt   DateTime @default(now())
+  
+  test        Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model TestResult {
+  id          String   @id @default(uuid())
+  userId      String
+  testId      String
+  score       Int
+  completedAt DateTime @default(now())
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  test        Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@map("test_results")
+}
+
+model Achievement {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String
+  icon        String?
+  earnedAt    DateTime @default(now())
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("achievements")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  SUPER_ADMIN
+  CONTENT_MANAGER
+  MODERATOR
+}
