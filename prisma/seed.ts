@@ -8,9 +8,8 @@ async function main() {
     // Create admin user
     const admin = await prisma.user.upsert({
         where: { email: 'admin@lawprep.uz' },
-        update: {},
-              password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG',
-        create: {
+        update: { password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG' },
+
             email: 'admin@lawprep.uz',
             name: 'Admin User',
                   password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG',
@@ -24,10 +23,11 @@ async function main() {
     // Create student user
     const student = await prisma.user.upsert({
         where: { email: 'student@test.com' },
-        update: {},
+update: { password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG' },
         create: {
             email: 'student@test.com',
             name: 'Test Student',
+                  password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG',
             role: 'STUDENT',
             isPremium: false,
             coins: 100,
