@@ -8,12 +8,12 @@ async function main() {
     // Create admin user
     const admin = await prisma.user.upsert({
         where: { email: 'admin@lawprep.uz' },
-        update: { password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG' },
+        update: { password: '$2a$12$3m8nXY2xVZYHk0DOW58qrutlM0cdsoyErlRIshuYnp4Ayy3swlu6e' },
               create: {
 
             email: 'admin@lawprep.uz',
             name: 'Admin User',
-                  password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG',
+                  password: '$2a$12$3m8nXY2xVZYHk0DOW58qrutlM0cdsoyErlRIshuYnp4Ayy3swlu6e',
             role: 'ADMIN',
             isPremium: true,
             coins: 1000,
@@ -24,11 +24,11 @@ async function main() {
     // Create student user
     const student = await prisma.user.upsert({
         where: { email: 'student@test.com' },
-update: { password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG' },
+update: { password: '$2a$12$3m8nXY2xVZYHk0DOW58qrutlM0cdsoyErlRIshuYnp4Ayy3swlu6e' },
         create: {
             email: 'student@test.com',
             name: 'Test Student',
-                  password: '$2a$12$M3coeS8YdQzjIGV/J8L0w0OJYIYN1tfHQ1xETWPI1Y2YPasi/JubG',
+                  password: '$2a$12$3m8nXY2xVZYHk0DOW58qrutlM0cdsoyErlRIshuYnp4Ayy3swlu6e',
             role: 'STUDENT',
             isPremium: false,
             coins: 100,
