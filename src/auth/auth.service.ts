@@ -11,14 +11,14 @@ export class AuthService {
     ) { }
 
     async validateUser(email: string, password: string): Promise<any> {
-        // For now, hardcoded admin check - replace with real password hashing later
-        if (email === 'admin@lawprep.uz' && password === 'admin123') {
-            return { id: '1', email, role: 'SUPER_ADMIN' };
-        }
-
         const user = await this.prisma.user.findUnique({ where: { email } });
-        if (user) {
-            return user;
+        if (user && user.password) {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { password, ...result } = user;
+                return result;
+            }
         }
         return null;
     }
@@ -35,7 +35,7 @@ export class AuthService {
             user: {
                 id: user.id,
                 email: user.email,
-                name: user.name || 'Admin',
+                name: user.name,
                 role: user.role,
             },
         };
@@ -47,11 +47,14 @@ export class AuthService {
         const user = await this.prisma.user.create({
             data: {
                 email,
+                password: hashedPassword,
                 name,
                 role: 'STUDENT',
             },
         });
 
-        return user;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password: _, ...result } = user;
+        return result;
     }
 }
